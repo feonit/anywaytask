@@ -1,0 +1,22 @@
+html, body {
+    height: 100%;
+    color: #E6A8FF;
+    padding: 0;
+    margin: 0;
+}
+div {
+    height: 100%;
+}
+.layout {
+    overflow: hidden;
+}
+.left {
+    background: #3F046F;
+    width: 200px;
+    float: left;
+}
+.center {
+    background: #9240D5;
+    margin-left: 200px;
+    overflow: hidden;
+}

@@ -3,20 +3,33 @@ html, body {
     color: #E6A8FF;
     padding: 0;
     margin: 0;
+    background: #9240D5;
 }
-div {
+
+.layout {
     height: 100%;
 }
-.layout {
-    overflow: hidden;
-}
+
 .left {
+    min-height: 100%;
     background: #3F046F;
     width: 200px;
     float: left;
 }
 .center {
-    background: #9240D5;
+    height: 100%;
     margin-left: 200px;
     overflow: hidden;
+}
+
+.folder-close {
+  background-image: url('images/folder-close.png') no-repeat;
+}
+
+.folder-open {
+  background-image: url('images/folder-open.png') no-repeat;
+}
+
+a {
+padding-left:30px;
 }

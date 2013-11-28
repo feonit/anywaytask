@@ -145,6 +145,54 @@ var app = new function AirLine() {
   //      Обработка и отображение данных
   //==============================================================================================
 
+  //алфавит авиакомпаний
+
+  this.store.airlines = null;
+
+  var Airline = function(){
+    var name = name,
+      flight = {};
+
+  }
+
+/*
+  Нужные данные приходят в таком вот виде
+
+Airlines: Array[26]
+  Name: "Air Baltic"
+  FaresFull: Array[1]
+    Pricing
+      ADTTotal: "60684"
+    TotalAmount: "62901"
+    Directions: Array[1]
+      Segments: Array[1]  //сектор
+        Trips: Array[1]  //поездки
+          Departure: Object
+            Airport: "Домодедово"
+            AirportCode: "DME"
+            City: "Москва"
+            Country: "Россия"
+            Date: "2014-06-24"
+            DayOfWeek: "Tuesday"
+            Displacement: null
+            Terminal: ""
+            Time: "07:25"
+
+          Arrival: Object
+            Airport: "Рига"
+            AirportCode: "RIX"
+            City: "Рига"
+            Country: "Латвия"
+            Date: "2014-06-24"
+            DayOfWeek: "Tuesday"
+            Displacement: null
+            Terminal: ""
+            Time: "08:35"
+          FlightDuration: "02:10"
+          FlightNumber: "BT-417"
+          OnEarth: "00:45"
+*/
+
   this.appendData = function(data){
     var airLines = data.Airlines,
         $divConteiner = $('.left'),

@@ -7,13 +7,7 @@
 
 
 
-var app = new function AirLine() {
-
-  /**
-   * Хранилище
-   * */
-
-  this.store = null;
+var app = new function Module() {
 
   //==============================================================================================
   //      Получение данных
@@ -67,7 +61,7 @@ var app = new function AirLine() {
   /**
    * Запуск поиска
    *
-   * @this {AirLine}
+   * @this {Module}
    * */
 
   this.requestStart = function(){
@@ -86,7 +80,7 @@ var app = new function AirLine() {
   /**
    * Обработка поиска
    *
-   * @this {AirLine}
+   * @this {Module}
    * */
 
   this.processSearch = function(id){
@@ -114,7 +108,7 @@ var app = new function AirLine() {
   /**
    * Для получения статуса поиска
    *
-   * @this {AirLine}
+   * @this {Module}
    * @param {String} id Идентификатор поискового запроса
    * @param {Function} handle Обработчик результата
    * */
@@ -129,7 +123,7 @@ var app = new function AirLine() {
   /**
    * Для получения результата поиска
    *
-   * @this {AirLine}
+   * @this {Module}
    * @param {String} id Идентификатор поискового запроса
    * @param {Function} handle Обработчик результата
    * */
@@ -147,13 +141,53 @@ var app = new function AirLine() {
 
   //алфавит авиакомпаний
 
-  this.store.airlines = null;
 
-  var Airline = function(){
-    var name = name,
-      flight = {};
+	/**
+	 * Конструктор Авиакомпания
+	 *
+	 * @this {Module}
+	 * @constructor {Airline}
+	 * @param {Object} airline Исходный объект
+	 * */
 
-  }
+	var that = this;
+
+	/**
+	 * Хранилище
+	 * */
+
+	this.store = {};
+
+
+	this.parseData = function(data){
+		var airlines = data['Airlines'],
+			i = airlines.length,
+			store = that.store;
+
+			while (i--) {
+				var nameAirLine = airlines[i]['Name'];
+
+				if (store[nameAirLine]) {
+					//проверить наличие новых рейсов
+					var len = airlines[i]['FaresFull'].length;
+
+					while(len--) {
+						var storeFaresFull = store[nameAirLine]['FaresFull']
+						var faresId = airlines[i]['FaresFull']['FareId']
+
+						if ( !storeFaresFull[faresId] ) {
+							storeFaresFull[faresId] =
+						}
+
+					}
+
+				} else {
+					store[nameAirLine] = airlines['FaresFull'];
+				}
+			}
+
+	}
+
 
 /*
   Нужные данные приходят в таком вот виде
@@ -191,9 +225,12 @@ Airlines: Array[26]
           FlightDuration: "02:10"
           FlightNumber: "BT-417"
           OnEarth: "00:45"
+
+ Airlines.Name Airlines.FaresFull[].TotalAmount
 */
 
   this.appendData = function(data){
+
     var airLines = data.Airlines,
         $divConteiner = $('.left'),
         $html = $('<ol>'),

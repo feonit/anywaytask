@@ -7,13 +7,7 @@
 
 
 
-var app = new function AirLine() {
-
-  /**
-   * Хранилище
-   * */
-
-  this.store = null;
+var app = new function Module() {
 
   //==============================================================================================
   //      Получение данных
@@ -67,7 +61,7 @@ var app = new function AirLine() {
   /**
    * Запуск поиска
    *
-   * @this {AirLine}
+   * @this {Module}
    * */
 
   this.requestStart = function(){
@@ -84,9 +78,39 @@ var app = new function AirLine() {
   };
 
   /**
+   * Для получения статуса поиска
+   *
+   * @this {Module}
+   * @param {String} id Идентификатор поискового запроса
+   * @param {Function} handle Обработчик результата
+   * */
+
+	this.requestStatus = function(id, handle){
+		var temp = this.urlTemplates.status,
+        url = $.tmpl( temp, {	ID : id }).text();
+
+		this.sendGetRequest(url, handle);
+	};
+
+
+  /**
+   * Для получения результата поиска
+   *
+   * @this {Module}
+   * @param {String} id Идентификатор поискового запроса
+   * @param {Function} handle Обработчик результата
+   * */
+	this.requestResult = function(id, handle){
+		var temp = this.urlTemplates.result,
+        url = $.tmpl( temp, { ID : id}).text();
+
+		this.sendGetRequest(url, handle);
+	};
+
+  /**
    * Обработка поиска
    *
-   * @this {AirLine}
+   * @this {Module}
    * */
 
   this.processSearch = function(id){
@@ -103,7 +127,8 @@ var app = new function AirLine() {
           // Получаем результат поиска
           that.requestResult(id, function(data){
             // И обрабатываем данные
-            that.appendData(data)
+            that.parseData(data);
+            that.initView();
           })
         }
       })
@@ -111,49 +136,74 @@ var app = new function AirLine() {
   };
 
 
-  /**
-   * Для получения статуса поиска
-   *
-   * @this {AirLine}
-   * @param {String} id Идентификатор поискового запроса
-   * @param {Function} handle Обработчик результата
-   * */
-
-	this.requestStatus = function(id, handle){
-		var temp = this.urlTemplates.status,
-        url = $.tmpl( temp, {	ID : id }).text();
-
-		this.sendGetRequest(url, handle);
-	};
-
-  /**
-   * Для получения результата поиска
-   *
-   * @this {AirLine}
-   * @param {String} id Идентификатор поискового запроса
-   * @param {Function} handle Обработчик результата
-   * */
-	this.requestResult = function(id, handle){
-		var temp = this.urlTemplates.result,
-        url = $.tmpl( temp, { ID : id}).text();
-
-		this.sendGetRequest(url, handle);
-	};
-
-
   //==============================================================================================
   //      Обработка и отображение данных
   //==============================================================================================
 
-  //алфавит авиакомпаний
+	var that = this;
 
-  this.store.airlines = null;
+	/**
+	 * Алфавит авиакомпаний
+   *
+	 * */
 
-  var Airline = function(){
-    var name = name,
-      flight = {};
+	this.member = {};
 
-  }
+
+	this.parseData = function (data){
+		var airlines = data['Airlines'],
+			i = airlines.length,
+			member = that.member,
+      airline,
+      name,
+      len,
+      alpha,
+      fare,
+      id;
+
+    //запоминаем информацию по каждой компании
+    while (i--) {
+
+      airline = airlines[i];
+      name = airline['Name'];
+      len = airline['FaresFull'].length;
+
+      if (member[name]) {
+        //если авиакомпания добавлена, обновляем алфавит рейсов
+        alpha = member[name]['FaresFull'];
+
+        while (len--) {
+          fare = airline['FaresFull'][len];
+          id = fare['FareId'];
+
+          //если нет такой записи, добавляем
+          if ( !alpha[id] ) {
+            alpha[id] = fare;
+          }
+        }
+
+      } else {
+        //если нет
+        alpha = {};
+
+        while (len--) {
+          fare = airline['FaresFull'][len];
+          id = fare['FareId'];
+
+          //сформировать алфавит рейсов по идентификаторам
+          alpha[id] = fare;
+        }
+        //добавляем
+        member[name] = alpha;
+      }
+    }
+	};
+
+  this.createListOfAirlines = function () {
+
+    return Object.keys(that.member).sort()
+  };
+
 
 /*
   Нужные данные приходят в таком вот виде
@@ -161,6 +211,7 @@ var app = new function AirLine() {
 Airlines: Array[26]
   Name: "Air Baltic"
   FaresFull: Array[1]
+    FareId: "89"
     Pricing
       ADTTotal: "60684"
     TotalAmount: "62901"
@@ -191,48 +242,77 @@ Airlines: Array[26]
           FlightDuration: "02:10"
           FlightNumber: "BT-417"
           OnEarth: "00:45"
+
+ Airlines.Name Airlines.FaresFull[].TotalAmount
 */
 
-  this.appendData = function(data){
-    var airLines = data.Airlines,
-        $divConteiner = $('.left'),
+  /**
+   * Вывести список авиакомпаний
+   *
+   * */
+
+   this.appendAirLine = function(list){
+
+    var $divConteiner = $('.left'),
         $html = $('<ol>'),
         template = "<li><a class='folder-close' href= '#'>${name}</a></li>",
 
-        len = airLines.length;
+        len = list.length;
 
 
-        for(var i=0; i<len; i+=1){
-          $.tmpl(template, {
-                             name : airLines[i].Name
-                           }
-          ).appendTo($html);
-        };
-
-        app.appendFlightData(airLines[2]);
-        $divConteiner.append($html);
-  }
-
-  this.appendFlightData = function(airLines){
-    var fares = airLines.FaresFull,
-        $divConteiner = $('.center'),
-        template = "<div> ${id} ${amount} ${seats} </div>",
-        len = fares.length,
-        $html = $('<div>');
-
-        for (var i=0; i < len; i+=1){
-          data = {
-           id : fares[i].FareId,
-           seats : fares[i].MinAvailSeats,
-           amount : fares[i].TotalAmount
-         };
-
-          $.tmpl(template, data).appendTo($html)
+        for (var i=0; i<len; i+=1){
+          $.tmpl(template, { name : list[i] }).appendTo($html);
         }
 
-        $divConteiner.append($html);
+        $divConteiner.empty().append($html);
   };
 
-  this.requestStart()
+  /**
+   * Отобразить информацию об авиакомпании
+   *
+   * */
+
+  this.appendFares = function(name){
+    var fares = that.member[name],
+      data,
+      $divConteiner = $('.center'),
+      template = "<div> ${id} ${amount} ${seats} </div>",
+      $html = $('<div>');
+
+    for (var id in fares ) { if (!fares.hasOwnProperty(id)) return;
+
+      data = {
+        id : id,
+        seats : fares[id]['MinAvailSeats'],
+        amount : fares[id]['TotalAmount']
+     };
+
+      $.tmpl(template, data).appendTo($html)
+    }
+
+    $divConteiner.empty().append($html);
+
+  };
+
+
+  /**
+   * Привязка событий к пользовательскому интерфейсу (возможность переключаться)
+   *
+   * */
+
+  var handler = function(){
+    that.appendFares($(this).text());
+  };
+
+  this.initView = function(){
+    var list = this.createListOfAirlines();
+    this.appendAirLine(list);
+    this.appendFares(list[0]);
+
+    $('a').on('click', handler);
+
+  };
+
+  setInterval(this.requestStart, 15000);
 
 };

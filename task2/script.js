@@ -284,7 +284,7 @@ Airlines: Array[26]
 
 	this.appendAirLine = function(list){
 
-		var $divConteiner = $('.airline'),
+		var $divConteiner = $('.field-links'),
 			$html = $('<ol>'),
 			template = $('.link').text(),
 			len = list.length;

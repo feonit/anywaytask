@@ -2,22 +2,22 @@ html, body {
     height: 100%;
     padding: 0;
     margin: 0;
+    font-family: Arial;
 }
 
 .layout {
     hheight: 100%;
 }
 
-.left {
+.box-left {
     min-height: 100%;
     padding: 5%;
     background: white;
     width: 200px;
     float: left;
 }
-.center {
-    color: #C2FFFF;
-    background: #1C16A0;
+.box-center {
+    background: white;
     height: 100%;
     padding: 5%;
     margin-left: 200px;
@@ -34,4 +34,15 @@ html, body {
 
 a {
 padding-left:10px;
+}
+
+.trip {
+    color: #C2FFFF;
+    border: 1px #C2FFFF dashed;
+    padding: 1em;
+    background: rgb(0, 127, 133);
+}
+
+.amount{
+    margin: 1em 0;
 }

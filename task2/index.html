@@ -13,29 +13,39 @@
 </head>
 <body>
 <div class="layout">
-  <div class="col left">
-    <p>Авиакомпании</p>
-    <div class="airline"></div>
+  <div class="box-left">
+    <h1>Авиакомпании</h1>
+    <div class="field-links"></div>
+
     <noscript class="link" type="text/template">
       <li><a class='folder-close' href= '#${name}'>${name}</a></li>
     </noscript>
+
   </div>
-  <div class="col center">
-    <p>Рейсы</p>
+  <div class="box-center">
+    <h1>Рейсы</h1>
     <div class="flight"></div>
+
     <noscript class="fares" type="text/template">
-      <div>Цена: ${TotalAmount}</div>
+      <div class="amount">Цена: ${TotalAmount}</div>
     </noscript>
+
     <noscript class="trips" type="text/template">
-      <br>
-      <div>
-        <b> ${Departure.City} </b> <span> ${Departure.Airport} </span> → <b> ${Arrival.City} </b> <span> ${Arrival.Airport} </span>
+      <div class="trip">
+        <br>
+        <div>
+          <b> ${Departure.City} </b> <span> ${Departure.Airport} </span> → <b> ${Arrival.City} </b> <span> ${Arrival.Airport} </span>
+        </div>
+        <div>
+          <p>Рейс: ${FlightNumber}</p>
+          <p>Самолёт: ${Plane.Name}</p>
+          <p>Класс: ${Class}</p>
+          <p>Время в пути: ${FlightDuration}</p>
+          <p>Вылет: <b>${Departure.Time}</b> <i>${Departure.Date}</i></p>
+          <p>Прилёт: <b>${Arrival.Time}</b> <i>${Arrival.Date}</i></p>
+        </div>
       </div>
-      <div>
-        <p>Рейс: ${FlightNumber}</p>
-        <p>Вылет: <b>${Departure.Time}</b> <i>${Departure.Date}</i></p>
-        <p>Прилёт: <b>${Arrival.Time}</b> <i>${Arrival.Date}</i></p>
-      </div>
+
     </noscript>
   </div>
 </div>

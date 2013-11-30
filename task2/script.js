@@ -284,9 +284,9 @@ Airlines: Array[26]
 
 	this.appendAirLine = function(list){
 
-		var $divConteiner = $('.left'),
+		var $divConteiner = $('.airline'),
 			$html = $('<ol>'),
-			template = "<li><a class='folder-close' href= '#'>${name}</a></li>",
+			template = $('.link').text(),
 			len = list.length;
 
 		for (var i=0; i<len; i+=1){
@@ -303,20 +303,26 @@ Airlines: Array[26]
 
 	this.appendFares = function(name){
 		var fares = that.member[name],
-			data,
-			$divConteiner = $('.center'),
-			template = "<div> ${id} ${amount} ${seats} </div>",
+			$divConteiner = $('.flight'),
+			templateFares = $('.fares').text(),
+			templateTrips = $('.trips').text(),
 			$html = $('<div>');
 
-		for (var id in fares ) { if (!fares.hasOwnProperty(id)) return;
 
-			data = {
-				id : id,
-				seats : fares[id]['MinAvailSeats'],
-				amount : fares[id]['TotalAmount']
-			};
 
-			$.tmpl(template, data).appendTo($html);
+		for (var id in fares ) {// if (!fares.hasOwnProperty(id)) return;
+			var segments = fares[id]['Directions'][0]['Segments'];
+
+			$.tmpl(templateFares, fares[id]).appendTo($html);
+
+			segments.forEach(function(segment){
+				segment['Trips'].forEach(function(trip){
+
+					$.tmpl(templateTrips, trip).appendTo($html);
+
+				})
+			});
+
 		}
 
 		$divConteiner.empty().append($html);
@@ -333,10 +339,11 @@ Airlines: Array[26]
 	};
 
 	this.initView = function(){
-		var list = this.createListOfAirlines();
+		var list = this.createListOfAirlines(),
+			page = location.hash.slice(1) || list[0]; // Дефолтная страница, по списку первая
 
 		this.appendAirLine(list);
-		this.appendFares(list[0]);
+		this.appendFares(page);
 
 		$('a').on('click', handler);
 	};

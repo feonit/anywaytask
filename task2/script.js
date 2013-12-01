@@ -15,7 +15,7 @@ var app;
 	app = this;
 
 	var TIME_UPDATE_INFO = 10000,
-		TIME_RECHECK_COMPLETED = 5000,
+		TIME_RECHECK_COMPLETED = 1000,
 		id_task_update_info_timeout,
 		id_task_recheck_completed_interval;
 
@@ -25,6 +25,9 @@ var app;
 	//==============================================================================================
 
 	var that = this;
+
+	this.cashe = {};
+	this.cashe.complate = 0;
 
 
 	/**
@@ -141,7 +144,7 @@ var app;
 			that._requestStatus(id, function(data){
 
 				// Пока не убедимся, что поиск завершён
-				if (data['Completed'] && data['Completed'] == 100){
+				if ((that.cashe.complate = data['Completed']) && data['Completed'] == 100){
 
 					// После чего останавливаем счетчик
 					clearInterval(id_task_recheck_completed_interval);
@@ -285,7 +288,7 @@ Airlines: Array[26]
 	this.appendAirLine = function(list){
 
 		var $divConteiner = $('.field-links'),
-			$html = $('<ol>'),
+			$html = $('<ul>'),
 			template = $('.link').text(),
 			len = list.length;
 
@@ -329,10 +332,7 @@ Airlines: Array[26]
 	};
 
 
-  /**
-   * Привязка событий к пользовательскому интерфейсу (возможность переключаться)
-   *
-   * */
+
 
 	var handler = function(){
 		that.appendFares($(this).text());
@@ -344,12 +344,29 @@ Airlines: Array[26]
 
 		this.appendAirLine(list);
 		this.appendFares(page);
-
-		$('a').on('click', handler);
+		this.bindEvents();
+		this.showPage();
 	};
 
 	/**
-	 * Как обновить приложение без перезагрузки страницы
+	 *
+	 * */
+
+	this.showPage = function(){
+		$('.content-view, .message-view').toggleClass('hidden');
+	}
+
+	/**
+	 * Привязка событий к пользовательскому интерфейсу (возможность переключаться)
+	 *
+	 * */
+
+ 	this.bindEvents = function() {
+		$('a').on('click', handler);
+	} ;
+
+	/**
+	 * Обновить приложение
 	 *
 	 * @this {Module}
 	 * @public
@@ -362,10 +379,44 @@ Airlines: Array[26]
 		this.requestStart();
 	};
 
+	/**
+	 * Остановить приложение
+	 *
+	 * @this {Module}
+	 * @public
+	 * */
+
 	this.stop = function(){
 		clearTimeout(id_task_update_info_timeout);
 		clearInterval(id_task_recheck_completed_interval);
+	};
+
+	/**
+	 * Метод отображения хода загрузки
+	 *
+	 * */
+
+	this.showProgress = function(){
+
+		setInterval((function(){
+			var $loading = $('.loading');
+			var $complate = $('.complate ');
+
+			return function(){
+				$loading.text().length == 3 ? $loading.empty() : $loading.text($loading.text() + '.');
+				$complate.text(that.cashe.complate);
+			}
+		})(), TIME_RECHECK_COMPLETED/5);
+
+	};
+
+
+	this.initApp = function(){
+		this.requestStart();
+
+		$(this.showProgress);
+
 	}
 
-}).requestStart();
+}).initApp();
 

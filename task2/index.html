@@ -5,48 +5,60 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>Сервис</title>
   <link rel="stylesheet" type="text/css" href="style.css">
-
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-
   <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 <div class="layout">
-  <div class="box-left">
-    <h1>Авиакомпании</h1>
-    <div class="field-links"></div>
-
-    <noscript class="link" type="text/template">
-      <li><a class='folder-close' href= '#${name}'>${name}</a></li>
-    </noscript>
-
+  <div class="message-view">
+      <span class="message">Пожалуйста подождите, идёт загрузка<span class="loading">...</span><span class="complate"></span></span>
   </div>
-  <div class="box-center">
-    <h1>Рейсы</h1>
-    <div class="flight"></div>
 
-    <noscript class="fares" type="text/template">
-      <div class="amount">Цена: ${TotalAmount}</div>
-    </noscript>
+  <div class="content-view hidden">
 
-    <noscript class="trips" type="text/template">
-      <div class="trip">
-        <br>
-        <div>
-          <b> ${Departure.City} </b> <span> ${Departure.Airport} </span> → <b> ${Arrival.City} </b> <span> ${Arrival.Airport} </span>
-        </div>
-        <div>
-          <p>Рейс: ${FlightNumber}</p>
-          <p>Самолёт: ${Plane.Name}</p>
-          <p>Класс: ${Class}</p>
-          <p>Время в пути: ${FlightDuration}</p>
-          <p>Вылет: <b>${Departure.Time}</b> <i>${Departure.Date}</i></p>
-          <p>Прилёт: <b>${Arrival.Time}</b> <i>${Arrival.Date}</i></p>
-        </div>
+    <!-- Список авиакомпаний -->
+    <div class="box-left">
+      <h1>Авиакомпании</h1>
+      <div class="field-links">
+
+        <!-- template for links -->
+        <noscript class="link" type="text/template">
+          <li><a class='folder-close' href= '#${name}'>${name}</a></li>
+        </noscript><!-- end template for links -->
+
       </div>
+    </div>
 
-    </noscript>
+    <!-- Рейсы выбранной авиакомпании -->
+    <div class="box-right">
+      <h1>Рейсы</h1>
+      <div class="flight"></div>
+
+      <!-- template for fares -->
+      <noscript class="fares" type="text/template">
+        <div class="amount">Цена: ${TotalAmount}</div>
+      </noscript><!-- end template for fares -->
+
+      <!-- template for trips -->
+      <noscript class="trips" type="text/template">
+        <div class="trip">
+          <br>
+          <div>
+            <b> ${Departure.City} </b> <span> ${Departure.Airport} </span> → <b> ${Arrival.City} </b> <span> ${Arrival.Airport} </span>
+          </div>
+          <div>
+            <p>Рейс: ${FlightNumber}</p>
+            <p>Самолёт: ${Plane.Name}</p>
+            <p>Класс: ${Class}</p>
+            <p>Время в пути: ${FlightDuration}</p>
+            <p>Вылет: <b>${Departure.Time}</b> <i>${Departure.Date}</i></p>
+            <p>Прилёт: <b>${Arrival.Time}</b> <i>${Arrival.Date}</i></p>
+          </div>
+        </div>
+      </noscript><!-- end template for trips -->
+
+    </div>
   </div>
 </div>
 </body>

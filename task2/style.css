@@ -53,7 +53,7 @@ html, body {
 a {
     margin-left:10px;
     text-decoration: none;
-    color: deepskyblue;
+    color: #00bfff ;
 }
 
 a:hover{
@@ -62,10 +62,15 @@ a:hover{
 }
 
 .trip {
-    color: blanchedalmond;
-    border: 1px #C2FFFF dotted;
+    color: white;
     padding: 1em;
     background: #555;
+    border: 1px #C2FFFF dotted;
+
+}
+
+.trip p{
+    margin:0;
 }
 
 .amount{
@@ -108,4 +113,18 @@ a:hover{
 
 .hidden{
     display: none;
+}
+
+.city{
+    font-weight: bold;
+    color: #00bfff;
+}
+
+.airoport{
+    font-size: 0.9em;
+    border-bottom: 1px solid white;
+}
+
+.date{
+    font-style: oblique;
 }

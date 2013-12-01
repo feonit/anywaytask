@@ -180,6 +180,12 @@ var app;
 
 	this.member = {};
 
+	/**
+	 * Проверка и сохранение данных
+	 *
+	 * @param {Object} data Информация об авиакомпаниях
+	 * */
+
 	this.parseData = function (data){
 		var airlines = data['Airlines'],
 			i = airlines.length,
@@ -231,6 +237,7 @@ var app;
 
 	/**
 	 * Создаёт отсортированный список имён авиакомпаний
+	 *
 	 * */
 
  	this.createListOfAirlines = function () {
@@ -239,7 +246,7 @@ var app;
 
 
 /*
-  Нужные данные приходят в таком вот виде
+  Нужные данные приходят абстрактно примерно в таком вот виде
 
 Airlines: Array[26]
   Name: "Air Baltic"
@@ -283,6 +290,7 @@ Airlines: Array[26]
 	/**
 	 * Вывести список авиакомпаний
 	 *
+	 * @param {Array} list Отсортированный список имён авиакомпаний
 	 * */
 
 	this.appendAirLine = function(list){
@@ -302,6 +310,7 @@ Airlines: Array[26]
 	/**
 	 * Отобразить информацию об авиакомпании
 	 *
+	 * @param {String} name Имя авиакомпании
 	 * */
 
 	this.appendFares = function(name){
@@ -310,8 +319,6 @@ Airlines: Array[26]
 			templateFares = $('.fares').text(),
 			templateTrips = $('.trips').text(),
 			$html = $('<div>');
-
-
 
 		for (var id in fares ) {// if (!fares.hasOwnProperty(id)) return;
 			var segments = fares[id]['Directions'][0]['Segments'];
@@ -331,30 +338,30 @@ Airlines: Array[26]
 		$divConteiner.empty().append($html);
 	};
 
+	/**
+	 * Отображение страницы
+	 *
+	 * @this {Module}
+	 * */
 
-
-
-	var handler = function(){
-		that.appendFares($(this).text());
-	};
-
-	this.initView = function(){
+ 	this.initView = function(){
 		var list = this.createListOfAirlines(),
-			page = location.hash.slice(1) || list[0]; // Дефолтная страница, по списку первая
+			nameAirLine = location.hash.slice(1) || list[0]; // Дефолтная страница, по списку первая
 
 		this.appendAirLine(list);
-		this.appendFares(page);
+		this.appendFares(nameAirLine);
 		this.bindEvents();
 		this.showPage();
 	};
 
 	/**
+	 * Заменить страницу загрузки на страницу с информацией
 	 *
 	 * */
 
 	this.showPage = function(){
 		$('.content-view, .message-view').toggleClass('hidden');
-	}
+	};
 
 	/**
 	 * Привязка событий к пользовательскому интерфейсу (возможность переключаться)
@@ -362,8 +369,10 @@ Airlines: Array[26]
 	 * */
 
  	this.bindEvents = function() {
-		$('a').on('click', handler);
-	} ;
+		$('a').on('click', function(){
+			that.appendFares($(this).text());
+		});
+	};
 
 	/**
 	 * Обновить приложение
@@ -399,24 +408,30 @@ Airlines: Array[26]
 	this.showProgress = function(){
 
 		setInterval((function(){
-			var $loading = $('.loading');
-			var $complate = $('.complate ');
+			var $loading = $('.loading'),
+				$complate = $('.complate ');
 
 			return function(){
 				$loading.text().length == 3 ? $loading.empty() : $loading.text($loading.text() + '.');
 				$complate.text(that.cashe.complate);
 			}
 		})(), TIME_RECHECK_COMPLETED/5);
-
 	};
 
+	/**
+	 * Стартовать приложение
+	 *
+	 * */
 
 	this.initApp = function(){
+
+		// Сделать запрос информации
 		this.requestStart();
 
+		// Когда загрузится документ
 		$(this.showProgress);
 
-	}
+	};
 
 }).initApp();
 

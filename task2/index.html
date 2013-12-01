@@ -45,15 +45,15 @@
         <div class="trip">
           <br>
           <div>
-            <b> ${Departure.City} </b> <span> ${Departure.Airport} </span> → <b> ${Arrival.City} </b> <span> ${Arrival.Airport} </span>
+            <span class="city"> ${Departure.City} </span> <span class="airoport"> ${Departure.Airport} </span> → <span class="city"> ${Arrival.City} </span> <span class="airoport"> ${Arrival.Airport} </span>
           </div>
           <div>
             <p>Рейс: ${FlightNumber}</p>
             <p>Самолёт: ${Plane.Name}</p>
             <p>Класс: ${Class}</p>
             <p>Время в пути: ${FlightDuration}</p>
-            <p>Вылет: <b>${Departure.Time}</b> <i>${Departure.Date}</i></p>
-            <p>Прилёт: <b>${Arrival.Time}</b> <i>${Arrival.Date}</i></p>
+            <p>Вылет: <span>${Departure.Time}</span> <span span="date">${Departure.Date}</span></p>
+            <p>Прилёт: <span>${Arrival.Time}</span> <span span="date">${Arrival.Date}</span></p>
           </div>
         </div>
       </noscript><!-- end template for trips -->

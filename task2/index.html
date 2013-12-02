@@ -20,46 +20,43 @@
     <!-- Список авиакомпаний -->
     <div class="box-left">
       <h1>Авиакомпании</h1>
-      <div class="field-links">
-
-        <!-- template for links -->
-        <noscript class="link" type="text/template">
-          <li><a class='folder-close' href= '#${name}'>${name}</a></li>
-        </noscript><!-- end template for links -->
-
-      </div>
+      <div class="field-links"></div>
     </div>
 
     <!-- Рейсы выбранной авиакомпании -->
     <div class="box-right">
       <h1>Рейсы</h1>
-      <div class="flight"></div>
-
-      <!-- template for fares -->
-      <noscript class="fares" type="text/template">
-        <div class="amount">Цена: ${TotalAmount}</div>
-      </noscript><!-- end template for fares -->
-
-      <!-- template for trips -->
-      <noscript class="trips" type="text/template">
-        <div class="trip">
-          <br>
-          <div>
-            <span class="city"> ${Departure.City} </span> <span class="airoport"> ${Departure.Airport} </span> → <span class="city"> ${Arrival.City} </span> <span class="airoport"> ${Arrival.Airport} </span>
-          </div>
-          <div>
-            <p>Рейс: ${FlightNumber}</p>
-            <p>Самолёт: ${Plane.Name}</p>
-            <p>Класс: ${Class}</p>
-            <p>Время в пути: ${FlightDuration}</p>
-            <p>Вылет: <span>${Departure.Time}</span> <span span="date">${Departure.Date}</span></p>
-            <p>Прилёт: <span>${Arrival.Time}</span> <span span="date">${Arrival.Date}</span></p>
-          </div>
-        </div>
-      </noscript><!-- end template for trips -->
-
+      <div class="field-flight"></div>
     </div>
   </div>
 </div>
+
+<!-- template for links -->
+<noscript class="link" type="text/template">
+  <li><a class='folder-close' href= '#${name}'>${name}</a></li>
+</noscript><!-- end template for links -->
+
+<!-- template for trips -->
+<noscript class="trips" type="text/template">
+  <div class="trip">
+    <br>
+    <div>
+      <span class="city"> ${Departure.City} </span> <span class="airoport"> ${Departure.Airport} </span> → <span class="city"> ${Arrival.City} </span> <span class="airoport"> ${Arrival.Airport} </span>
+    </div>
+    <div>
+      <p>Рейс: ${FlightNumber}</p>
+      <p>Самолёт: ${Plane.Name}</p>
+      <p>Класс: ${Class}</p>
+      <p>Время в пути: ${FlightDuration}</p>
+      <p>Вылет: <span>${Departure.Time}</span> <span span="date">${Departure.Date}</span></p>
+      <p>Прилёт: <span>${Arrival.Time}</span> <span span="date">${Arrival.Date}</span></p>
+    </div>
+  </div>
+</noscript><!-- end template for trips -->
+
+<!-- template for fares -->
+<noscript class="fares" type="text/template">
+  <div class="amount">Цена: ${TotalAmount}</div>
+</noscript><!-- end template for fares -->
 </body>
 </html>

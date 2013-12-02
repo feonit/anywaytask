@@ -315,7 +315,7 @@ Airlines: Array[26]
 
 	this.appendFares = function(name){
 		var fares = that.member[name],
-			$divConteiner = $('.flight'),
+			$divConteiner = $('.field-flight'),
 			templateFares = $('.fares').text(),
 			templateTrips = $('.trips').text(),
 			$html = $('<div>');

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Сервис</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+<div class="layout">
+  <div class="message-view">
+      <span class="message">Пожалуйста подождите, идёт загрузка<span class="loading">...</span><span class="complate"></span></span>
+  </div>
+
+  <div class="content-view hidden">
+
+    <!-- Список авиакомпаний -->
+    <div class="box-left">
+      <h1>Авиакомпании</h1>
+      <div class="field-links"></div>
+    </div>
+
+    <!-- Рейсы выбранной авиакомпании -->
+    <div class="box-right">
+      <h1>Рейсы</h1>
+      <div class="field-flight"></div>
+    </div>
+  </div>
+</div>
+
+<!-- template for links -->
+<noscript class="link" type="text/template">
+  <li><a class='folder-close' href= '#${name}'>${name}</a></li>
+</noscript><!-- end template for links -->
+
+<!-- template for trips -->
+<noscript class="trips" type="text/template">
+  <div class="trip">
+    <br>
+    <div>
+      <span class="city"> ${Departure.City} </span> <span class="airoport"> ${Departure.Airport} </span> → <span class="city"> ${Arrival.City} </span> <span class="airoport"> ${Arrival.Airport} </span>
+    </div>
+    <div>
+      <p>Рейс: ${FlightNumber}</p>
+      <p>Самолёт: ${Plane.Name}</p>
+      <p>Класс: ${Class}</p>
+      <p>Время в пути: ${FlightDuration}</p>
+      <p>Вылет: <span>${Departure.Time}</span> <span span="date">${Departure.Date}</span></p>
+      <p>Прилёт: <span>${Arrival.Time}</span> <span span="date">${Arrival.Date}</span></p>
+    </div>
+  </div>
+</noscript><!-- end template for trips -->
+
+<!-- template for fares -->
+<noscript class="fares" type="text/template">
+  <div class="amount">Цена: ${TotalAmount}</div>
+</noscript><!-- end template for fares -->
+</body>
+</html>

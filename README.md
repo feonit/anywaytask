@@ -1,8 +1,9 @@
+<h2>Мои решения задач:</h2>
 http://feonit.github.io/anywaytask/task1/task1.html
 <br>
 http://feonit.github.io/anywaytask/task2/index.html
 
-<h1>Тестовое задание Anywayanyday</h1>
+<h2>Тестовое задание Anywayanyday</h2>
 <ol>
 <li>
 Сверстать трехколоночный резиновый макет

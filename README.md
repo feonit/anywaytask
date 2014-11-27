@@ -1,7 +1,7 @@
 <h2>Мои решения задач:</h2>
-http://feonit.github.io/anywaytask/task1/task1.html
+http://feonit.github.io/task_anywayanyday/task1/task1.html
 <br>
-http://feonit.github.io/anywaytask/task2/index.html
+http://feonit.github.io/task_anywayanyday/task2/index.html
 
 <h2>Тестовое задание Anywayanyday</h2>
 <ol>
